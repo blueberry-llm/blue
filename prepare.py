@@ -70,8 +70,9 @@ ACTIVE_DATASET_PATH = os.path.join(CACHE_DIR, "active_dataset.txt")
 
 DATASET_CONFIGS = {
     "ultrafineweb": {
-        "filename": "ultrafineweb_0.parquet",
-        "url": "https://huggingface.co/api/datasets/CrowdMind/ultrafineweb_dolma_shuffled/parquet/default/train/0.parquet",
+        "filename_pattern": "shard_{:05d}.parquet",
+        "base_url": "https://huggingface.co/datasets/CrowdMind/ultrafineweb_dolma_shuffled/resolve/main/",
+        "num_shards": 5,
         "splits": {
             "test": (0, 2_000),
             "val": (2_000, 4_000),
@@ -205,6 +206,37 @@ def _download_parquet_file(dataset_name):
     config = DATASET_CONFIGS[dataset_name]
     data_dir = _data_dir(dataset_name)
     os.makedirs(data_dir, exist_ok=True)
+
+    filename_pattern = config.get("filename_pattern")
+    num_shards = config.get("num_shards")
+
+    if filename_pattern and num_shards:
+        base_url = config["base_url"]
+        downloaded = 0
+        for i in range(num_shards):
+            filename = filename_pattern.format(i)
+            filepath = os.path.join(data_dir, filename)
+            if os.path.exists(filepath):
+                continue
+            url = base_url + filename
+            print(f"Data: downloading {filename}...")
+            try:
+                response = requests.get(url, stream=True, timeout=120)
+                response.raise_for_status()
+                temp_path = filepath + ".tmp"
+                with open(temp_path, "wb") as f:
+                    for chunk in response.iter_content(chunk_size=1024 * 1024):
+                        if chunk:
+                            f.write(chunk)
+                os.rename(temp_path, filepath)
+                downloaded += 1
+            except Exception as e:
+                print(f"Data: failed to download {filename}: {e}")
+        if downloaded > 0:
+            print(f"Data: downloaded {downloaded} new shard(s) to {data_dir}")
+        else:
+            print(f"Data: all {num_shards} shards already downloaded at {data_dir}")
+        return
 
     filename = config["filename"]
     filepath = os.path.join(data_dir, filename)
