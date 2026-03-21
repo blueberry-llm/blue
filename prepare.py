@@ -72,11 +72,11 @@ DATASET_CONFIGS = {
     "ultrafineweb": {
         "filename_pattern": "shard_{:05d}.parquet",
         "base_url": "https://huggingface.co/datasets/CrowdMind/ultrafineweb_dolma_shuffled/resolve/main/",
-        "num_shards": 5,
+        "num_shards": 12,
         "splits": {
-            "test": (0, 2_000),
-            "val": (2_000, 4_000),
-            "train": (4_000, None),
+            "test": (0, 10_000),
+            "val": (10_000, 20_000),
+            "train": (20_000, None),
         },
     },
     "tinystories": {
