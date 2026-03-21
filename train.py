@@ -1032,15 +1032,15 @@ class MuonAdamW(torch.optim.Optimizer):
 # ---------------------------------------------------------------------------
 
 # Model architecture
-ASPECT_RATIO = 32  # model_dim = depth * ASPECT_RATIO
-HEAD_DIM = 128  # target head dimension for attention
+ASPECT_RATIO = 64  # model_dim = depth * ASPECT_RATIO
+HEAD_DIM = 64  # target head dimension for attention
 WINDOW_PATTERN = "SSSL"  # sliding window pattern: L=full, S=half context
 
 # MoE
-N_EXPERTS = 6  # 0 = dense MLP, >0 = MoE with this many experts
+N_EXPERTS = 8  # 0 = dense MLP, >0 = MoE with this many experts
 TOP_K = 2  # best routing: top-1 beats top-2 and top-3
 N_SHARED_EXPERTS = 1  # shared experts processed by every token
-AUX_LOSS_WEIGHT = 0.01
+AUX_LOSS_WEIGHT = 0.001
 
 # Optimization
 TOTAL_BATCH_SIZE = 2**19
@@ -1056,8 +1056,8 @@ FINAL_LR_FRAC = 0.0
 
 # Model size + memory defaults
 DEPTH = 8
-DEVICE_BATCH_SIZE = 16
-EVAL_BATCH_SIZE = 8
+DEVICE_BATCH_SIZE = 8
+EVAL_BATCH_SIZE = 4
 
 
 def build_model_config(depth, vocab_size, runtime, use_activation_checkpointing=None):
