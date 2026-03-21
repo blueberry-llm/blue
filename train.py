@@ -26,6 +26,7 @@ from prepare import (
     EVAL_TOKENS,
     MAX_SEQ_LEN,
     TIME_BUDGET,
+    TRAINING_TIMEOUT,
     Tokenizer,
     evaluate_bpb,
     make_dataloader,
@@ -1455,6 +1456,9 @@ def _run_training_once(runtime, tokenizer, config, device_batch_size, smoke_test
         if max_steps is not None and step >= max_steps:
             break
         if step > 10 and total_training_time >= target_training_seconds:
+            break
+        if total_training_time >= TRAINING_TIMEOUT:
+            print(f"\nTimeout reached ({TRAINING_TIMEOUT}s), stopping training...")
             break
         if smoke_test and total_training_time >= target_training_seconds:
             break
