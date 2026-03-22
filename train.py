@@ -1039,7 +1039,7 @@ WINDOW_PATTERN = "SSSL"  # sliding window pattern: L=full, S=half context
 
 # MoE
 N_EXPERTS = 8  # 0 = dense MLP, >0 = MoE with this many experts
-TOP_K = 2  # best routing: top-1 beats top-2 and top-3
+TOP_K = 1  # top-1 routing reduces overhead
 N_SHARED_EXPERTS = 1  # shared experts processed by every token
 AUX_LOSS_WEIGHT = 0.001
 
