@@ -25,12 +25,14 @@ from prepare import (
     DATASET_CHOICES,
     EVAL_TOKENS,
     MAX_SEQ_LEN,
-    TIME_BUDGET,
+    TIME_BUDGET as _TIME_BUDGET,
     TRAINING_TIMEOUT,
     Tokenizer,
     evaluate_bpb,
     make_dataloader,
 )
+
+TIME_BUDGET = min(_TIME_BUDGET, 2000)
 
 # ---------------------------------------------------------------------------
 # Runtime configuration
@@ -1038,7 +1040,7 @@ HEAD_DIM = 64  # target head dimension for attention
 WINDOW_PATTERN = "SSSL"  # sliding window pattern: L=full, S=half context
 
 # MoE
-N_EXPERTS = 8  # 0 = dense MLP, >0 = MoE with this many experts
+N_EXPERTS = 4  # 0 = dense MLP, >0 = MoE with this many experts
 TOP_K = 2  # best routing: top-1 beats top-2 and top-3
 N_SHARED_EXPERTS = 1  # shared experts processed by every token
 AUX_LOSS_WEIGHT = 0.001
@@ -1056,7 +1058,7 @@ WARMDOWN_RATIO = 0.5
 FINAL_LR_FRAC = 0.0
 
 # Model size + memory defaults
-DEPTH = 8
+DEPTH = 12
 DEVICE_BATCH_SIZE = 8
 EVAL_BATCH_SIZE = 4
 
