@@ -1,3 +1,4 @@
 commit	val_bpb	memory_gb	status	description
 
 f2fbc8d	1.592335	5.1	keep	daily baseline: MoE 8 experts, top-2, 1 shared, depth=8, AR=64
+26f0519	1.905729	8.7	discard	increase-depth: depth=12 n_embd=768 N_EXPERTS=4 (worse: undertrained due to fewer steps, 86 vs 167)
