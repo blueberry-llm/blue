@@ -1,3 +1,4 @@
 commit	val_bpb	memory_gb	status	description
 
 f2fbc8d	1.592335	5.1	keep	daily baseline: MoE 8 experts, top-2, 1 shared, depth=8, AR=64
+f6e5f53	1.527447	5.1	discard	higher-lr: MATRIX_LR=0.16 (slightly worse than 0.12: 1.527 vs 1.521)
