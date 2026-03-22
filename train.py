@@ -25,12 +25,14 @@ from prepare import (
     DATASET_CHOICES,
     EVAL_TOKENS,
     MAX_SEQ_LEN,
-    TIME_BUDGET,
+    TIME_BUDGET as _TIME_BUDGET,
     TRAINING_TIMEOUT,
     Tokenizer,
     evaluate_bpb,
     make_dataloader,
 )
+
+TIME_BUDGET = min(_TIME_BUDGET, 2500)
 
 # ---------------------------------------------------------------------------
 # Runtime configuration
@@ -1047,7 +1049,7 @@ AUX_LOSS_WEIGHT = 0.001
 TOTAL_BATCH_SIZE = 2**19
 EMBEDDING_LR = 0.6
 UNEMBEDDING_LR = 0.004
-MATRIX_LR = 0.08
+MATRIX_LR = 0.16
 SCALAR_LR = 0.5
 WEIGHT_DECAY = 0.2
 ADAM_BETAS = (0.8, 0.95)
